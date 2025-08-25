@@ -1,7 +1,49 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, {
+  useMemo,
+  useState,
+  type ReactNode,
+  type CSSProperties,
+  type MouseEvent,
+} from "react";
 import { motion, useReducedMotion } from "framer-motion";
+
+/* ===================== */
+/*        TYPES          */
+/* ===================== */
+
+type MenuItem = {
+  name: string;
+  desc: string;
+  badge?: string;
+  price?: number;
+  prices?: { single: number; double: number };
+};
+
+type ChipProps = { label: string };
+type PriceProps = { amount: number };
+type MenuCardProps = { item: MenuItem };
+
+type SectionProps = {
+  id: string;
+  eyebrow?: string;
+  title?: ReactNode;
+  subtitle?: string;
+  children: ReactNode;
+};
+
+type FieryLogoProps = { src: string; alt?: string };
+
+type HeroDecorProps = {
+  side?: "left" | "right";
+  lighter?: boolean;
+};
+
+/* ===================== */
+/*     ORIGINAL CODE     */
+/* ===================== */
 
 /* config stuff */
 const googleFormUrl = "https://forms.gle/REPLACE_WITH_YOUR_FORM_ID"; // catering form
@@ -79,7 +121,7 @@ const menuData = {
 };
 
 /* tiny UI bits */
-const Chip = ({ label }) => (
+const Chip: React.FC<ChipProps> = ({ label }) => (
   <span
     className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold tracking-wide"
     style={{ borderColor: brand.accent2, color: brand.text, background: "#00000040" }}
@@ -88,14 +130,14 @@ const Chip = ({ label }) => (
   </span>
 );
 
-const Price = ({ amount }) => (
+const Price: React.FC<PriceProps> = ({ amount }) => (
   <span className="font-bold tracking-wide" style={{ color: brand.accent }}>
     ${amount.toFixed(2)}
   </span>
 );
 
 /* menu card (gentle reveal on scroll) */
-const MenuCard = ({ item }) => {
+const MenuCard: React.FC<MenuCardProps> = ({ item }) => {
   const prefersReduced = useReducedMotion();
   return (
     <motion.article
@@ -129,14 +171,14 @@ const MenuCard = ({ item }) => {
           </div>
         </div>
       ) : (
-        <div className="mt-auto"><Price amount={item.price} /></div>
+        <div className="mt-auto"><Price amount={item.price!} /></div>
       )}
     </motion.article>
   );
 };
 
 /* section wrapper (scroll offset so sticky nav doesn't cover headings) */
-const Section = ({ id, eyebrow, title, children, subtitle }) => (
+const Section: React.FC<SectionProps> = ({ id, eyebrow, title, children, subtitle }) => (
   <section id={id} className="relative mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 lg:px-8 scroll-mt-24">
     <div className="mb-8">
       {eyebrow && (
@@ -166,24 +208,14 @@ const Section = ({ id, eyebrow, title, children, subtitle }) => (
   </section>
 );
 
-// // smooth scroll handler (desktop offset, safe on mobile too)
-// const handleSmoothScroll = (e, href) => {
-//   e.preventDefault();
-//   const id = href.replace("#", "");
-//   const el = document.getElementById(id);
-//   if (!el) return;
-
-//   const header = document.querySelector("header");
-//   const offset = header ? header.offsetHeight : 0;
-
-//   const y =
-//     window.scrollY + el.getBoundingClientRect().top - offset - 8; // tiny breathing room
-//   window.scrollTo({ top: y, behavior: "smooth" });
-// };
-
-//testing with a bunch of stuff just to experiment 
-const FieryLogo = ({ src, alt = "Smash Lab mark" }) => {
+//testing with a bunch of stuff just to experiment
+const FieryLogo: React.FC<FieryLogoProps> = ({ src, alt = "Smash Lab mark" }) => {
   const prefersReduced = useReducedMotion();
+
+  // helper to allow custom CSS var (--drift) on style objects
+  const ember = (base: CSSProperties, drift: string): CSSProperties =>
+    ({ ...base, ["--drift" as any]: drift } as unknown as CSSProperties);
+
   return (
     <div className="fiery-wrap">
       {!prefersReduced && (
@@ -194,84 +226,66 @@ const FieryLogo = ({ src, alt = "Smash Lab mark" }) => {
           {/* floating ember particles with different timings/drift */}
           <span
             className="ember"
-            style={{
-              left: "30%",
-              animationDuration: "4.2s",
-              animationDelay: "0.2s",
-              "--drift": "-10px",
-            }}
+            style={ember(
+              { left: "30%", animationDuration: "4.2s", animationDelay: "0.2s" },
+              "-10px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              left: "45%",
-              animationDuration: "5s",
-              animationDelay: "0.8s",
-              "--drift": "8px",
-            }}
+            style={ember(
+              { left: "45%", animationDuration: "5s", animationDelay: "0.8s" },
+              "8px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              left: "60%",
-              animationDuration: "4.5s",
-              animationDelay: "1.1s",
-              "--drift": "-6px",
-            }}
+            style={ember(
+              { left: "60%", animationDuration: "4.5s", animationDelay: "1.1s" },
+              "-6px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              left: "40%",
-              animationDuration: "5.4s",
-              animationDelay: "1.6s",
-              "--drift": "12px",
-            }}
+            style={ember(
+              { left: "40%", animationDuration: "5.4s", animationDelay: "1.6s" },
+              "12px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              left: "70%",
-              animationDuration: "4.8s",
-              animationDelay: "0.5s",
-              "--drift": "-34px",
-            }}
+            style={ember(
+              { left: "70%", animationDuration: "4.8s", animationDelay: "0.5s" },
+              "-34px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              left: "34%",
-              animationDuration: "6.8s",
-              animationDelay: "0.5s",
-              "--drift": "-22px",
-            }}
+            style={ember(
+              { left: "34%", animationDuration: "6.8s", animationDelay: "0.5s" },
+              "-22px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              left: "5%",
-              animationDuration: "3.8s",
-              animationDelay: "0.15s",
-              "--drift": "-32px",
-            }}
+            style={ember(
+              { left: "5%", animationDuration: "3.8s", animationDelay: "0.15s" },
+              "-32px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              right: "5%",
-              animationDuration: "5.8s",
-              animationDelay: "0.15s",
-              "--drift": "22px",
-            }}
+            style={ember(
+              { right: "5%", animationDuration: "5.8s", animationDelay: "0.15s" },
+              "22px"
+            )}
           />
           <span
             className="ember"
-            style={{
-              right: "7%",
-              animationDuration: "3.8s",
-              animationDelay: "1.5s",
-              "--drift": "12px",
-            }}
+            style={ember(
+              { right: "7%", animationDuration: "3.8s", animationDelay: "1.5s" },
+              "12px"
+            )}
           />
         </>
       )}
@@ -281,9 +295,8 @@ const FieryLogo = ({ src, alt = "Smash Lab mark" }) => {
   );
 };
 
-
 // decorative fries for hero — masked, subtle, responsive
-const HeroDecor = ({ side = "left", lighter = false }) => {
+const HeroDecor: React.FC<HeroDecorProps> = ({ side = "left", lighter = false }) => {
   const prefersReduced = useReducedMotion();
 
   const base =
@@ -295,7 +308,7 @@ const HeroDecor = ({ side = "left", lighter = false }) => {
       ? "left-[-9vw] top-[8vw] w-[36vw] max-w-[520px] min-w-[260px] lg:w-[30vw] xl:w-[26vw]"
       : "right-[-8vw] bottom-[-1vw] w-[28vw] max-w-[420px] min-w-[200px] lg:w-[22vw] xl:w-[20vw]";
 
-  const maskStyle =
+  const maskStyle: CSSProperties =
     side === "left"
       ? {
           WebkitMaskImage:
@@ -314,7 +327,15 @@ const HeroDecor = ({ side = "left", lighter = false }) => {
         };
 
   if (prefersReduced) {
-    return <img src="/fries.png" alt="" aria-hidden="true" className={`${base} ${posSize}`} style={maskStyle} />;
+    return (
+      <img
+        src="/fries.png"
+        alt=""
+        aria-hidden="true"
+        className={`${base} ${posSize}`}
+        style={maskStyle}
+      />
+    );
   }
 
   return (
@@ -331,12 +352,8 @@ const HeroDecor = ({ side = "left", lighter = false }) => {
   );
 };
 
-
-
-
-
 /* main app */
-const SmashLabSite = () => {
+const SmashLabSite: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const prefersReduced = useReducedMotion();
 
@@ -352,27 +369,20 @@ const SmashLabSite = () => {
 
   const handleCatering = () => window.open(googleFormUrl, "_blank", "noopener");
 
-  // smooth scroll (keeps it consistent even when user clicks fast)
-//   const handleSmoothScroll = (e, href) => {
-//     e.preventDefault();
-//     const id = href.replace("#", "");
-//     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-//   };
+  // smooth scroll handler
+  const handleSmoothScroll = (e: MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const id = href.replace("#", "");
+    const el = document.getElementById(id);
+    if (!el) return;
 
-// smooth scroll handler 
-const handleSmoothScroll = (e, href) => {
-  e.preventDefault();
-  const id = href.replace("#", "");
-  const el = document.getElementById(id);
-  if (!el) return;
+    const header = document.querySelector("header") as HTMLElement | null;
+    const offset = header ? header.offsetHeight : 0;
 
-  const header = document.querySelector("header");
-  const offset = header ? header.offsetHeight : 0;
-
-  const y =
-    window.scrollY + el.getBoundingClientRect().top - offset - 8; // tiny breathing room
-  window.scrollTo({ top: y, behavior: "smooth" });
-};
+    const y =
+      window.scrollY + el.getBoundingClientRect().top - offset - 8; // tiny breathing room
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
 
   return (
     <motion.div
@@ -475,7 +485,6 @@ const handleSmoothScroll = (e, href) => {
         <HeroDecor side="left" />         {/* main fries on left */}
         <HeroDecor side="right" lighter /> {/* subtle fries on right */}
 
-
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -483,17 +492,10 @@ const handleSmoothScroll = (e, href) => {
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08 } } }}
           className="mx-auto flex max-w-6xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-11 py-22 sm:py-20"
         >
-          {/* <motion.img
-            variants={{ hidden: { opacity: 0, y: prefersReduced ? 0 : 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
-            src={assets.logo}
-            alt="Smash Lab mark"
-            className="mb-6 h-66 w-66 rounded-full"
-          /> */}
-
-        {/* fiery logo */}
-  <motion.div variants={{ hidden: { opacity: 0, y:5 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}>
-    <FieryLogo src={assets.logo} />
-  </motion.div>
+          {/* fiery logo */}
+          <motion.div variants={{ hidden: { opacity: 0, y:5 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}>
+            <FieryLogo src={assets.logo} />
+          </motion.div>
 
           <motion.h1
             variants={{ hidden: { opacity: 0, y: prefersReduced ? 0 : 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
@@ -535,7 +537,7 @@ const handleSmoothScroll = (e, href) => {
           >
             {["100% Zabiha Halal", "Grass-Fed Beef", "House Special Sauce", "Hand-Smashed", "Made Hot & Fresh", "Locally Sourced"].map((f) => (
               <div key={f} className="rounded-xl border px-3 py-2 text-xs font-semibold opacity-90" style={{ borderColor: "#2b1c16", background: "#00000040" }}>
-            {f}
+                {f}
               </div>
             ))}
           </motion.div>
@@ -543,76 +545,74 @@ const handleSmoothScroll = (e, href) => {
       </section>
 
       {/* menu */}
-    <Section
-      id="menu"
-      eyebrow="Menu"
-      title={
-        <>
-        The <span style={{ color: brand.accent, fontWeight: 900 }}>Smash Lab</span> Line-Up
-        </>
-      }
-      subtitle="Simple lineup. Maximum crave. Prices may vary by event."
-    >
+      <Section
+        id="menu"
+        eyebrow="Menu"
+        title={
+          <>
+            The <span style={{ color: brand.accent, fontWeight: 900 }}>Smash Lab</span> Line-Up
+          </>
+        }
+        subtitle="Simple lineup. Maximum crave. Prices may vary by event."
+      >
+        <div className="mb-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
+          {/* leave this empty or add a tiny note if you want */}
+          <span className="text-xs opacity-60"></span>
 
-<div className="mb-6 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-    {/* leave this empty or add a tiny note if you want */}
-    <span className="text-xs opacity-60"></span>
+          <a
+            href="/menu.pdf"                 // rename your file in /public to menu.pdf if it has spaces
+            download                          // prompts download; remove if you prefer to open in a new tab
+            target="_blank"                   // open in new tab if not downloading
+            rel="noopener"
+            aria-label="Download the Smash Lab menu as PDF"
+            className="cursor-pointer inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-extrabold shadow-sm transition focus:outline-none focus-visible:ring-2 hover:-translate-y-0.5 active:translate-y-0"
+            style={{ background: brand.accent2, color: brand.text }}
+          >
+            {/* tiny icon + label */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-2" aria-hidden="true">
+              <path d="M12 16V4M12 16l-3.5-3.5M12 16l3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <rect x="4" y="16" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+            Download PDF Menu
+          </a>
+        </div>
 
-    <a
-      href="/menu.pdf"                 // rename your file in /public to menu.pdf if it has spaces
-      download                          // prompts download; remove if you prefer to open in a new tab
-      target="_blank"                   // open in new tab if not downloading
-      rel="noopener"
-      aria-label="Download the Smash Lab menu as PDF"
-      className="cursor-pointer inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-extrabold shadow-sm transition focus:outline-none focus-visible:ring-2 hover:-translate-y-0.5 active:translate-y-0"
-      style={{ background: brand.accent2, color: brand.text }}
-    >
-      {/* tiny icon + label */}
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="mr-2" aria-hidden="true">
-        <path d="M12 16V4M12 16l-3.5-3.5M12 16l3.5-3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <rect x="4" y="16" width="16" height="4" rx="2" stroke="currentColor" strokeWidth="2"/>
-      </svg>
-      Download PDF Menu
-    </a>
-  </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {menuData.specials.map((item) => (
+            <MenuCard key={item.name} item={item} />
+          ))}
+        </div>
 
+        {/* mains + sides */}
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+          {menuData.mains.map((item) => (
+            <MenuCard key={item.name} item={item} />
+          ))}
+          {menuData.sides.map((item) => (
+            <MenuCard key={item.name} item={item} />
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        {menuData.specials.map((item) => (
-        <MenuCard key={item.name} item={item} />
-        ))}
-      </div>
+        {/* drinks */}
+        <div className="mt-12 rounded-2xl border p-6" style={{ borderColor: brand.accent2, background: "#151312" }}>
+          <h3 className="mb-2 text-xl font-extrabold" style={{ color: brand.text }}>Drinks</h3>
+          <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {menuData.drinks.map((d) => (
+              <li key={d.name} className="flex items-center justify-between rounded-xl bg-black/30 px-4 py-3">
+                <span className="font-semibold">{d.name}</span>
+                <Price amount={d.price} />
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      {/* mains + sides */}
-      <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
-        {menuData.mains.map((item) => (
-        <MenuCard key={item.name} item={item} />
-        ))}
-        {menuData.sides.map((item) => (
-        <MenuCard key={item.name} item={item} />
-        ))}
-      </div>
-
-      {/* drinks */}
-      <div className="mt-12 rounded-2xl border p-6" style={{ borderColor: brand.accent2, background: "#151312" }}>
-        <h3 className="mb-2 text-xl font-extrabold" style={{ color: brand.text }}>Drinks</h3>
-        <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-        {menuData.drinks.map((d) => (
-          <li key={d.name} className="flex items-center justify-between rounded-xl bg-black/30 px-4 py-3">
-            <span className="font-semibold">{d.name}</span>
-            <Price amount={d.price} />
-          </li>
-        ))}
-        </ul>
-      </div>
-
-      {/* extras */}
-      <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
-        {menuData.extras.map((x) => (
-        <Chip key={x.name} label={`${x.name} +$${x.price.toFixed(2)}`} />
-        ))}
-      </div>
-    </Section>
+        {/* extras */}
+        <div className="mt-6 flex flex-wrap items-center gap-3 text-sm">
+          {menuData.extras.map((x) => (
+            <Chip key={x.name} label={`${x.name} +$${x.price.toFixed(2)}`} />
+          ))}
+        </div>
+      </Section>
 
       {/* catering */}
       <Section id="catering" eyebrow="Catering" title="Pop-ups, events & private catering">
