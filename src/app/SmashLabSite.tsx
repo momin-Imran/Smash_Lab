@@ -501,7 +501,7 @@ const SmashLabSite: React.FC = () => {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08 } } }}
-          className="mx-auto flex max-w-6xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-11 py-22 sm:py-20"
+          className="mx-auto flex max-w-6xl flex-col items-center px-4 py-18 text-center sm:px-6 lg:px-8 lg:py-11 sm:py-16"
         >
           {/* fiery logo */}
           <motion.div variants={{ hidden: { opacity: 0, y:5 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}>
