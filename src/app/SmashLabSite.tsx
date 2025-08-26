@@ -95,13 +95,13 @@ const menuData = {
       badge: "Loaded",
     },
   ],
-  mains: [
-    {
-      name: "Chopped Cheese",
-      desc: "Seasoned beef with melted cheese, onions, pickles & house sauce",
-      price: 10.99,
-    },
-  ],
+  // mains: [
+  //   {
+  //     name: "Chopped Cheese",
+  //     desc: "Seasoned beef with melted cheese, onions, pickles & house sauce",
+  //     price: 10.99,
+  //   },
+  // ],
   sides: [
     {
       name: "Seasoned Fries",
@@ -124,6 +124,30 @@ const menuData = {
     { name: "Extra Patty", price: 1.99 },
   ],
 };
+
+/* next stop (centralized copy; multiple events) */
+type NextStopItem = {
+  title: string;     // e.g. "UMBC Fall Fest — Sept 10"
+  location?: string; // e.g. "Engineering Atrium"
+  time?: string;     // e.g. "11 AM – 4 PM"
+  note?: string;     // e.g. "Full line-up: Classic, Flamin’, Loaded Fries"
+};
+
+/** Update this array as needed. Set to [] to show the fallback automatically. */
+const nextStops: NextStopItem[] = [
+  {
+    title: "ISB Revive Night — Aug 28",
+    location: "Islamic Society of Baltimore (ISB)",
+    time: "8 PM – 10 PM",
+    //note: "Full line-up: Classic, Flamin’, Loaded Fries, and more."
+  },
+  {
+    title: "Masjid in Springfield, VA — Aug 29",
+    location: "TBA",
+    time: "7 PM – 9:30 PM",
+    //note: "First 30 orders get free sauce cups."
+  }
+];
 
 /* tiny UI bits */
 const Chip: React.FC<ChipProps> = ({ label }) => (
@@ -213,6 +237,56 @@ const Section: React.FC<SectionProps> = ({ id, eyebrow, title, children, subtitl
   </section>
 );
 
+/* centralized "Next Stop" section (supports multiple) */
+const NextStopSection: React.FC = () => {
+  const hasEvents = nextStops.length > 0;
+
+  return (
+    <Section
+      id="next"
+      eyebrow="Next Stop"
+      title="Where to Find Us"
+      subtitle="Our upcoming pop-ups and events."
+    >
+      <div className={hasEvents ? "grid gap-6 md:grid-cols-2" : "grid gap-6"}>
+        {hasEvents ? (
+          nextStops.map((e, idx) => (
+            <div
+              key={idx}
+              className="rounded-2xl border p-6"
+              style={{ borderColor: brand.accent2, background: "#151312" }}
+            >
+              <h3 className="mb-2 text-xl font-extrabold" style={{ color: brand.accent }}>
+                {e.title}
+              </h3>
+              {(e.location || e.time) && (
+                <p className="text-sm opacity-90">
+                  {e.location ? <>{e.location}</> : null}
+                  {e.location && e.time ? " • " : null}
+                  {e.time ? <>{e.time}</> : null}
+                </p>
+              )}
+              {e.note && <p className="mt-2 text-xs opacity-70">{e.note}</p>}
+            </div>
+          ))
+        ) : (
+          <div
+            className="rounded-2xl border p-6"
+            style={{ borderColor: brand.accent2, background: "#151312" }}
+          >
+            <h3 className="mb-2 text-xl font-extrabold" style={{ color: brand.accent }}>
+              No upcoming pop-ups
+            </h3>
+            <p className="text-sm opacity-90">
+              We’re off the road for a bit. Check back soon or follow us on Instagram for updates.
+            </p>
+          </div>
+        )}
+      </div>
+    </Section>
+  );
+};
+
 //helper type
 const ember = (base: CSSProperties, drift: string): DriftStyle => ({
   ...base,
@@ -298,6 +372,206 @@ const FieryLogo: React.FC<FieryLogoProps> = ({ src, alt = "Smash Lab mark" }) =>
               "12px"
             )}
           />
+          {/* additional floating embers for more random, populated effect */}
+<span
+  className="ember"
+  style={ember(
+    { left: "15%", animationDuration: "3.6s", animationDelay: "0.4s" },
+    "18px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "25%", animationDuration: "6.2s", animationDelay: "1.8s" },
+    "-14px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "55%", animationDuration: "4.1s", animationDelay: "0.9s" },
+    "6px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "80%", animationDuration: "7.3s", animationDelay: "1.3s" },
+    "-20px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "12%", animationDuration: "5.7s", animationDelay: "0.6s" },
+    "10px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "18%", animationDuration: "3.5s", animationDelay: "2s" },
+    "-8px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "65%", animationDuration: "6.9s", animationDelay: "0.2s" },
+    "16px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "25%", animationDuration: "4.4s", animationDelay: "1.7s" },
+    "-12px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "8%", animationDuration: "5.2s", animationDelay: "1.1s" },
+    "20px"
+  )}
+/>
+{/* extra embers for a denser, charcoal-like feel */}
+<span
+  className="ember"
+  style={ember(
+    { left: "2%", animationDuration: "7.8s", animationDelay: "1.9s" },
+    "-24px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "10%", animationDuration: "3.2s", animationDelay: "0.7s" },
+    "14px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "75%", animationDuration: "6.5s", animationDelay: "0.4s" },
+    "-18px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "85%", animationDuration: "4s", animationDelay: "1.6s" },
+    "22px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "3%", animationDuration: "5.9s", animationDelay: "0.3s" },
+    "-16px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "8%", animationDuration: "7.1s", animationDelay: "2.1s" },
+    "12px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "50%", animationDuration: "3.4s", animationDelay: "0.1s" },
+    "-10px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "62%", animationDuration: "8s", animationDelay: "2.5s" },
+    "28px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "40%", animationDuration: "4.6s", animationDelay: "0.9s" },
+    "-14px"
+  )}
+/>
+{/* extra embers for ultra-realistic density */}
+<span
+  className="ember"
+  style={ember(
+    { left: "12%", animationDuration: "4.3s", animationDelay: "0.9s" },
+    "-16px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "22%", animationDuration: "7.1s", animationDelay: "1.4s" },
+    "20px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "48%", animationDuration: "3.6s", animationDelay: "0.2s" },
+    "-8px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "68%", animationDuration: "6.5s", animationDelay: "2.1s" },
+    "14px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "82%", animationDuration: "5.2s", animationDelay: "0.7s" },
+    "-22px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "15%", animationDuration: "7.4s", animationDelay: "0.3s" },
+    "18px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "28%", animationDuration: "4.7s", animationDelay: "1.1s" },
+    "-12px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "38%", animationDuration: "6.9s", animationDelay: "1.8s" },
+    "26px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { left: "7%", animationDuration: "3.9s", animationDelay: "0.4s" },
+    "-10px"
+  )}
+/>
+<span
+  className="ember"
+  style={ember(
+    { right: "6%", animationDuration: "5.8s", animationDelay: "1.6s" },
+    "12px"
+  )}
+/>
+
         </>
       )}
       {/* main logo image */}
@@ -370,6 +644,7 @@ const SmashLabSite: React.FC = () => {
 
   const nav = useMemo(
     () => [
+      { label: "Next Stop", href: "#next" },
       { label: "Menu", href: "#menu" },
       { label: "Catering", href: "#catering" },
       { label: "About", href: "#about" },
@@ -519,7 +794,7 @@ const SmashLabSite: React.FC = () => {
             variants={{ hidden: { opacity: 0, y: prefersReduced ? 0 : 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
             className="mt-4 max-w-2xl text-sm opacity-90 sm:text-base"
           >
-            Science-backed smash burgers, crispy fries, and ice-cold drinks. Small menu. Big flavor.
+            Fresh-off-the-griddle smash burgers, crispy fries, and ice-cold drinks. Small menu. Big flavor, live at the pop-up.
           </motion.p>
           <motion.div
             variants={{ hidden: { opacity: 0, y: prefersReduced ? 0 : 12 }, show: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
@@ -555,6 +830,9 @@ const SmashLabSite: React.FC = () => {
         </motion.div>
       </section>
 
+      {/* next stop / where to find us */}
+      <NextStopSection />
+
       {/* menu */}
       <Section
         id="menu"
@@ -571,8 +849,7 @@ const SmashLabSite: React.FC = () => {
           <span className="text-xs opacity-60"></span>
 
           <a
-            href="/menu.pdf"                 // rename your file in /public to menu.pdf if it has spaces
-            download                          // prompts download; remove if you prefer to open in a new tab
+            href="/menu.pdf"                 // rename your file in /public to menu.pdf if it has spaces                         // prompts download; remove if you prefer to open in a new tab
             target="_blank"                   // open in new tab if not downloading
             rel="noopener"
             aria-label="Download the Smash Lab menu as PDF"
@@ -596,9 +873,9 @@ const SmashLabSite: React.FC = () => {
 
         {/* mains + sides */}
         <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
-          {menuData.mains.map((item) => (
+          {/* {menuData.mains.map((item) => (
             <MenuCard key={item.name} item={item} />
-          ))}
+          ))} */}
           {menuData.sides.map((item) => (
             <MenuCard key={item.name} item={item} />
           ))}
@@ -656,28 +933,51 @@ const SmashLabSite: React.FC = () => {
               <li>Power/water availability (nice to have)</li>
               <li>Any venue/campus restrictions</li>
             </ol>
-            <p className="mt-4 text-xs opacity-70">After you submit the form I’ll reply within 24 hours with a quote and next steps.</p>
+            <p className="mt-4 text-xs opacity-70">After you submit the form, we’ll reply within 24 hours with a quote and next steps.</p>
           </div>
         </div>
       </Section>
 
       {/* about */}
-      <Section id="about" eyebrow="Our Story" title="Smash science meets street food energy">
-        <div className="grid gap-6 md:grid-cols-2">
-          <p className="text-sm opacity-90">
-            Smash Lab started as a pop-up passion project focused on three things: fresh ingredients, clean technique, and ridiculous flavor.
-            I keep the menu tight so every order is hot, fast, and consistent. No fluff—just the chemistry of a perfect smash.
-          </p>
-          <div className="rounded-2xl border p-6 text-sm opacity-90" style={{ borderColor: brand.accent2, background: "#151312" }}>
-            <div className="mb-3 text-xs uppercase tracking-widest" style={{ color: brand.accent }}>What makes us different</div>
-            <ul className="list-inside list-disc space-y-2">
-              <li>Grass-fed beef smashed to crispy-edge perfection</li>
-              <li>House special sauce (the one everyone asks about)</li>
-              <li>Pop-up ready: fast setup, fast service, big smiles</li>
-            </ul>
-          </div>
-        </div>
-      </Section>
+      <Section id="about" eyebrow="Our Story" title={<>Student-Run. <span style={{ color: brand.accent, fontWeight: 900 }}>Flavor-Driven.</span></>}>
+  <div className="grid gap-6 md:grid-cols-2">
+    <div className="space-y-4 text-sm opacity-90">
+      <p>
+        We began <b>Smash Lab</b> as a group of college students in Baltimore County who felt
+        something was missing. There weren’t many spots serving halal smash burgers the way
+        we craved them, so we rolled up our sleeves and built our own.
+      </p>
+      <p>
+        What began as a small passion project has grown into a pop-up with a clear mission:
+        fresh halal beef smashed hot on the griddle, crispy golden fries, and house-made
+        sauces that turn simple ingredients into bold, crave-worthy flavor.
+      </p>
+      <p>
+        Every order is cooked live, served fresh, and made to hit different. When you stop
+        by Smash Lab, you’re not just grabbing food, you’re supporting a student-run small
+        business bringing big flavor to the community.
+      </p>
+    </div>
+
+    <div
+      className="rounded-2xl border p-6 text-sm opacity-90"
+      style={{ borderColor: brand.accent2, background: "#151312" }}
+    >
+      <div
+        className="mb-3 text-xs uppercase tracking-widest"
+        style={{ color: brand.accent }}
+      >
+        What makes us different
+      </div>
+      <ul className="list-inside list-disc space-y-2">
+        <li>Grass-fed halal beef smashed to crispy-edge perfection</li>
+        <li>House special sauce (the one everyone asks about)</li>
+        <li>Pop-up ready: fast setup, warm service, big smiles</li>
+      </ul>
+    </div>
+  </div>
+</Section>
+
 
       {/* contact */}
       <Section id="contact" eyebrow="Contact" title="Say hello!">

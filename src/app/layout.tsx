@@ -27,7 +27,7 @@ const display = Space_Grotesk({
 });
 
 export const metadata = {
-  title: "Smash Lab Burgers",
+  title: "Smash Lab Burgers: Welcome",
   description: "Fresh, perfectly cooked smash burgers, crispy fries, and ice-cold drinks.",
   icons: {
     icon: "/logo1.png",

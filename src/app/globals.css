@@ -43,6 +43,7 @@ html:focus-within { scroll-behavior: smooth; }
 }
 @keyframes emberRise {
   0%   { transform: translateY(0) scale(0.3); opacity: 0; }
+  6%   { opacity: var(--ember-opacity, 0.9); }
   10%  { opacity: 0.8; }
   40%  { opacity: 1; }
   100% { transform: translate(var(--drift, 12px), -90px) scale(0.9); opacity: 0; }
@@ -78,6 +79,8 @@ html:focus-within { scroll-behavior: smooth; }
     0 0 12px rgba(200, 30, 10, 0.5);
   animation: emberRise linear infinite, emberFlicker steps(7) infinite alternate;
   will-change: transform, opacity;
+  opacity: 0;                         /* hide before animation starts */
+  animation-fill-mode: both, both;
 }
 /* smoke trail anchored to each ember (thin, tapered, grayish) */
 .ember::after {
