@@ -301,7 +301,7 @@ const FieryLogo: React.FC<FieryLogoProps> = ({ src, alt = "Smash Lab mark" }) =>
         </>
       )}
       {/* main logo image */}
-      <img src={src} alt={alt} className="mb-4 h-66 w-66 rounded-full" />
+      <img src={src} alt={alt} className="mb-4 h-54 w-54 rounded-full sm:h-66 sm:w-66" />
     </div>
   );
 };
