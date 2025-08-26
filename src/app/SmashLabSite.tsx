@@ -10,6 +10,9 @@ import React, {
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
+
+
+
 /* ===================== */
 /*        TYPES          */
 /* ===================== */
@@ -40,6 +43,8 @@ type HeroDecorProps = {
   side?: "left" | "right";
   lighter?: boolean;
 };
+
+type DriftStyle = CSSProperties & { ["--drift"]?: string };
 
 /* ===================== */
 /*     ORIGINAL CODE     */
@@ -208,13 +213,19 @@ const Section: React.FC<SectionProps> = ({ id, eyebrow, title, children, subtitl
   </section>
 );
 
+//helper type
+const ember = (base: CSSProperties, drift: string): DriftStyle => ({
+  ...base,
+  ["--drift"]: drift,
+});
+
 //testing with a bunch of stuff just to experiment
 const FieryLogo: React.FC<FieryLogoProps> = ({ src, alt = "Smash Lab mark" }) => {
   const prefersReduced = useReducedMotion();
 
-  // helper to allow custom CSS var (--drift) on style objects
-  const ember = (base: CSSProperties, drift: string): CSSProperties =>
-    ({ ...base, ["--drift" as any]: drift } as unknown as CSSProperties);
+  // // helper to allow custom CSS var (--drift) on style objects
+  // const ember = (base: CSSProperties, drift: string): CSSProperties =>
+  //   ({ ...base, ["--drift" as any]: drift } as unknown as CSSProperties);
 
   return (
     <div className="fiery-wrap">
