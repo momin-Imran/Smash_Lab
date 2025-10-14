@@ -106,12 +106,12 @@ const menuData = {
     {
       name: "Seasoned Fries",
       desc: "Crispy golden fries with our homemade special sauce",
-      price: 2.99,
+      price: 3.99,
     },
     {
       name: "Loaded Fries",
       desc: "Fries with juicy beef, melted cheese, onions, pickles & house sauce",
-      price: 10.99,
+      price: 13.49,
     },
   ],
   drinks: [
