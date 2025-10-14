@@ -51,7 +51,7 @@ type DriftStyle = CSSProperties & { ["--drift"]?: string };
 /* ===================== */
 
 /* config stuff */
-const googleFormUrl = "https://forms.gle/REPLACE_WITH_YOUR_FORM_ID"; // catering form
+const googleFormUrl = "https://docs.google.com/forms/d/e/1FAIpQLSdW2FvD3ATm5003K7Ha3jmyew_3HEYBzjtTwuBRvIvet_aXjA/viewform?usp=preview"; // catering form
 const instagramUrl = "https://www.instagram.com/smash__lab/";
 const emailAddress = "smashlab9292@gmail.com";
 
