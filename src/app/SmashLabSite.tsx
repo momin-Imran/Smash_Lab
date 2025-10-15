@@ -134,7 +134,14 @@ type NextStopItem = {
 };
 
 /** Update this array as needed. Set to [] to show the fallback automatically. */
-const nextStops: NextStopItem[] = [];
+const nextStops: NextStopItem[] = [
+{
+    title: "Masjid An-Nur — October 25",
+    location: "8020 Corporate Dr, Nottingham, MD 21236",
+    time: "2 PM – 8 PM",
+  }
+
+];
 
 /* tiny UI bits */
 const Chip: React.FC<ChipProps> = ({ label }) => (
