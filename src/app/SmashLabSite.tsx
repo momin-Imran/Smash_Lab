@@ -139,7 +139,13 @@ const nextStops: NextStopItem[] = [
     title: "Masjid An-Nur — October 25",
     location: "8020 Corporate Dr, Nottingham, MD 21236",
     time: "2 PM – 8 PM",
-  }
+  },
+{
+    title: "ISB Annual Youth Group Bonfire — October 31",
+    location: "Islamic Society of Baltimore",
+    time: "6 PM – 8 PM",
+  },
+
 
 ];
 
